@@ -42,9 +42,8 @@ const StyledGrid = styled.div`
   ${(p) =>
     p.listType === "grid" &&
     `
-    align-items: center;
-
     @media (min-width: 600px) {
+      align-items: center;
       width: auto;
       flex-direction: row;
     }

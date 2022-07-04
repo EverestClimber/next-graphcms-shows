@@ -22,6 +22,10 @@ export const Main = styled.main`
   ${(p) => p.width && `
     width: ${p.width};
   `}
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `
 
 export const Footer = styled.footer`
