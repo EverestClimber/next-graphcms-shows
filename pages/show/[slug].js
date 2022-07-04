@@ -4,7 +4,7 @@ import Layout from '@c/Layout'
 import FlexyRow from '@c/FlexyRow'
 import { Title } from '@c/Title'
 import { getShowBySlug } from '@l/graphcms'
-import { formatUSD, formatDate } from '@l/utils'
+import { formatUSD, formatDate, formatUrl } from '@l/utils'
 
 const Markdown = styled(ReactMarkdown)`
   img {
@@ -40,6 +40,7 @@ const Portrait = ({ images = [] }) => {
 }
 
 export default function Shows({ show }) {
+  console.log(show);
   return (
     <Layout title={`${show.title} / next-graphcms-shows`} maxWidth="900px" padding="0 2em">
       <Title>{show.title}</Title>
@@ -58,10 +59,10 @@ export default function Shows({ show }) {
           <Portrait images={artist.images} />
 
           <FlexyRow justify="flex-start">
-            <a href={artist.webUrl} target="_blank">Website</a>
-            <a href={artist.facebookUrl} target="_blank">Facebook</a>
-            <a href={artist.instagramUrl} target="_blank">Instagram</a>
-            <a href={artist.youTubeUrl} target="_blank">YouTube</a>
+            <a href={formatUrl(artist.webUrl)} target="_blank">Website</a>
+            <a href={formatUrl(artist.facebookUrl)} target="_blank">Facebook</a>
+            <a href={formatUrl(artist.instagramUrl)} target="_blank">Instagram</a>
+            <a href={formatUrl(artist.youTubeUrl)} target="_blank">YouTube</a>
           </FlexyRow>
 
           <Markdown source={artist.bio} />
