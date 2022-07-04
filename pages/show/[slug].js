@@ -75,7 +75,13 @@ export async function getServerSideProps({ params }) {
   const { slug } = params
   const show = (await getShowBySlug(slug))
 
-  return {
-    props: { show },
+  if (show) {
+    return {
+      props: { show },
+    }
+  } else {
+    return {
+      notFound: true,
+    }
   }
 }
