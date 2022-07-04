@@ -1,38 +1,72 @@
-import { useState } from "react";
-import { css } from "styled-components";
+import { useState, useEffect } from "react";
 import Layout from "@c/Layout";
 import { Grid, Card } from "@c/Grid";
 import { Title } from "@c/Title";
-import { Toggle } from "@c/Toggle";
+import { ToggleWithTitles } from "@c/Toggle";
 import FlexyRow from "@c/FlexyRow";
+import { SelectWithTitle } from "@c/Select";
 import { formatUSD, formatDate } from "@l/utils";
 import { getAllShows } from "@l/graphcms";
 
-export default function Shows({ shows }) {
+const sortOrders = [
+  {
+    id: "title_ASC",
+    text: "Title - asc",
+  },
+  {
+    id: "title_DESC",
+    text: "Title desc - desc",
+  },
+  {
+    id: "scheduledStartTime_ASC",
+    text: "Scheduled Date - asc",
+  },
+  {
+    id: "scheduledStartTime_DESC",
+    text: "Scheduled Date - desc",
+  },
+];
+
+export default function Shows() {
   const [listType, setListType] = useState("grid");
+  const [sortOrder, setSortOrder] = useState(sortOrders[3].text);
+  const [shows, setShows] = useState([]);
   const isList = listType === "list";
 
-  return (
-    <Layout maxWidth="1000px" width={isList && "100%"} title="next-graphcms-shows / Shows">
-      <Title>Shows</Title>
-      <FlexyRow>
-        <div
-          css={css`
-            display: flex;
-            align-items: center;
+  const handleSelectChange = ({ target: { value } }) => {
+    setSortOrder(value);
+  };
 
-            & > span {
-              margin: 5px;
-            }
-          `}
-        >
-          <span>Grid</span>
-          <Toggle
-            toggled={isList}
-            onToggle={() => setListType(isList ? "grid" : "list")}
-          />
-          <span>List</span>
-        </div>
+  const loadShows = async () => {
+    const orderId = sortOrders.find(({ text }) => text === sortOrder).id;
+    const res = (await getAllShows(orderId)) || [];
+    setShows(res);
+  };
+
+  useEffect(() => {
+    loadShows();
+  }, [sortOrder]);
+
+  return (
+    <Layout
+      maxWidth="1000px"
+      width={isList && "100%"}
+      title="next-graphcms-shows / Shows"
+    >
+      <Title>Shows</Title>
+      <FlexyRow justify="space-around">
+        <ToggleWithTitles
+          toggled={isList}
+          onToggle={() => setListType(isList ? "grid" : "list")}
+          start="Grid"
+          end="List"
+        />
+        <SelectWithTitle
+          title="Sort Order"
+          data={sortOrders}
+          value={sortOrder}
+          onChange={handleSelectChange}
+        />
       </FlexyRow>
       <Grid listType={listType}>
         {shows.map((show) => (
@@ -49,11 +83,4 @@ export default function Shows({ shows }) {
       </Grid>
     </Layout>
   );
-}
-
-export async function getServerSideProps() {
-  const shows = (await getAllShows()) || [];
-  return {
-    props: { shows },
-  };
 }

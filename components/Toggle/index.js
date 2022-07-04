@@ -58,3 +58,20 @@ export const Toggle = ({ toggled, onToggle }) => (
     <Slider />
   </Container>
 );
+
+export const ToggleWithTitles = ({ start, end, ...props }) => (
+  <div
+    css={css`
+      display: flex;
+      align-items: center;
+
+      & > span {
+        margin: 1rem;
+      }
+    `}
+  >
+    <span>{start}</span>
+    <Toggle {...props} />
+    <span>{end}</span>
+  </div>
+);

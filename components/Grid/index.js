@@ -3,9 +3,10 @@ import styled, { css } from "styled-components";
 import { truncateText } from "@l/utils";
 
 const CardStyle = css`
+  box-sizing: border-box;
   align-self: stretch;
   margin: 1rem;
-  flex-basis: 45%;
+  flex: 1 1 calc(50% - 2rem);
   padding: 1.5rem;
   text-align: left;
   color: inherit;
