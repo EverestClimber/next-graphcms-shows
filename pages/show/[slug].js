@@ -1,10 +1,10 @@
-import ReactMarkdown from 'react-markdown'
-import styled from 'styled-components'
-import Layout from '@c/Layout'
-import FlexyRow from '@c/FlexyRow'
-import { Title } from '@c/Title'
-import { getShowBySlug } from '@l/graphcms'
-import { formatUSD, formatDate, formatUrl } from '@l/utils'
+import ReactMarkdown from "react-markdown";
+import styled from "styled-components";
+import Layout from "@c/Layout";
+import FlexyRow from "@c/FlexyRow";
+import { Title } from "@c/Title";
+import { getShowBySlug } from "@l/graphcms";
+import { formatUSD, formatDate, formatUrl } from "@l/utils";
 
 const Markdown = styled(ReactMarkdown)`
   img {
@@ -12,11 +12,11 @@ const Markdown = styled(ReactMarkdown)`
     border-radius: 20px;
     border: 4px solid currentColor;
   }
-`
+`;
 
 const ArtistName = styled.h2`
   text-align: center;
-`
+`;
 
 const ArtistPhoto = styled.div`
   background-image: url(${(p) => p.imageUrl});
@@ -27,22 +27,24 @@ const ArtistPhoto = styled.div`
   border-radius: 100px;
   border: 4px solid currentColor;
   margin: 0 auto;
-`
+`;
 
 const Portrait = ({ images = [] }) => {
   if (images.length > 0) {
-    const img = images[0]
-    return (
-      <ArtistPhoto imageUrl={img.url} />
-    )
+    const img = images[0];
+    return <ArtistPhoto imageUrl={img.url} />;
   }
-  return null
-}
+  return null;
+};
 
 export default function Shows({ show }) {
   console.log(show);
   return (
-    <Layout title={`${show.title} / next-graphcms-shows`} maxWidth="900px" padding="0 2em">
+    <Layout
+      title={`${show.title} / next-graphcms-shows`}
+      maxWidth="900px"
+      padding="0 2em"
+    >
       <Title>{show.title}</Title>
 
       <FlexyRow>
@@ -52,37 +54,53 @@ export default function Shows({ show }) {
 
       <Markdown source={show.description} />
 
-      {show.artists.map(artist => (
+      {show.artists.map((artist) => (
         <div key={artist.id}>
           <ArtistName>{artist.fullName}</ArtistName>
 
           <Portrait images={artist.images} />
 
           <FlexyRow justify="flex-start">
-            <a href={formatUrl(artist.webUrl)} target="_blank">Website</a>
-            <a href={formatUrl(artist.facebookUrl)} target="_blank">Facebook</a>
-            <a href={formatUrl(artist.instagramUrl)} target="_blank">Instagram</a>
-            <a href={formatUrl(artist.youTubeUrl)} target="_blank">YouTube</a>
+            {artist.webUrl && (
+              <a href={formatUrl(artist.webUrl)} target="_blank">
+                Website
+              </a>
+            )}
+            {artist.facebookUrl && (
+              <a href={formatUrl(artist.facebookUrl)} target="_blank">
+                Facebook
+              </a>
+            )}
+            {artist.instagramUrl && (
+              <a href={formatUrl(artist.instagramUrl)} target="_blank">
+                Instagram
+              </a>
+            )}
+            {artist.youTubeUrl && (
+              <a href={formatUrl(artist.youTubeUrl)} target="_blank">
+                YouTube
+              </a>
+            )}
           </FlexyRow>
 
           <Markdown source={artist.bio} />
         </div>
       ))}
     </Layout>
-  )
+  );
 }
 
 export async function getServerSideProps({ params }) {
-  const { slug } = params
-  const show = (await getShowBySlug(slug))
+  const { slug } = params;
+  const show = await getShowBySlug(slug);
 
   if (show) {
     return {
       props: { show },
-    }
+    };
   } else {
     return {
       notFound: true,
-    }
+    };
   }
 }
