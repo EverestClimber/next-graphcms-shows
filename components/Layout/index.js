@@ -8,6 +8,7 @@ export default function Layout({
   children,
   color = '#fff',
   maxWidth = '100%',
+  width = '',
   padding = '5rem 0',
   alignItems = 'center'
 }) {
@@ -22,6 +23,7 @@ export default function Layout({
       </Head>
 
       <Main
+        width={width}
         maxWidth={maxWidth}
         alignItems={alignItems}>
         {children}

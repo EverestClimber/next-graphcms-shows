@@ -19,6 +19,9 @@ export const Main = styled.main`
   justify-content: center;
   align-items: ${(p) => p.alignItems};
   max-width: ${(p) => p.maxWidth};
+  ${(p) => p.width && `
+    width: ${p.width};
+  `}
 `
 
 export const Footer = styled.footer`
