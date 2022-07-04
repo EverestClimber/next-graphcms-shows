@@ -38,7 +38,6 @@ const Portrait = ({ images = [] }) => {
 };
 
 export default function Shows({ show }) {
-  console.log(show);
   return (
     <Layout
       title={`${show.title} / next-graphcms-shows`}
@@ -79,6 +78,11 @@ export default function Shows({ show }) {
             {artist.youTubeUrl && (
               <a href={formatUrl(artist.youTubeUrl)} target="_blank">
                 YouTube
+              </a>
+            )}
+            {artist.spotifyUrl && (
+              <a href={formatUrl(artist.spotifyUrl)} target="_blank">
+                Spotify
               </a>
             )}
           </FlexyRow>
