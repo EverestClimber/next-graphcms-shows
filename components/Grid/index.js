@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { truncateText } from "@l/utils";
 
 const CardStyle = css`
+  align-self: stretch;
   margin: 1rem;
   flex-basis: 45%;
   padding: 1.5rem;
